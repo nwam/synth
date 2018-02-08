@@ -3,9 +3,9 @@ import scipy.io.wavfile
 
 fs = 44100
 
-def fourrier_synth(a, phi, f_0=440, T=2, fs=44100):
+def fourier_synth(a, phi, f_0=440, T=2, fs=44100):
     '''
-    Generates Fourrier Synth samples
+    Generates Fourier Synth samples
 
     inputs
         a: list of amplitudes for each harmonic
@@ -15,7 +15,7 @@ def fourrier_synth(a, phi, f_0=440, T=2, fs=44100):
         fs: sample rate
 
     output
-        samples: samples of fourrier synth (y axis)
+        samples: samples of fourier synth (y axis)
         ts: the time ticks in seconds (x axis)
     '''
     assert(len(a) == len(phi))
@@ -34,14 +34,14 @@ def fourrier_synth(a, phi, f_0=440, T=2, fs=44100):
 
 def functional_wave(a_function, phi_function, K=9, f_0=440, T=2, fs=44100):
     '''
-    Generates a fourrier synth based on functions for a and phi
+    Generates a fourier synth based on functions for a and phi
 
     inputs
         a_function: function to calculate amplitude for each harmonic
             takes one parameter: harmonic number (e.g. 1,2,3,...)
         phi_function: function to calculate shift for each harmonic
             takes one parameter: harmonic number
-        K: the number of harmonics to use in the fourrier approximation
+        K: the number of harmonics to use in the fourier approximation
         f_0: fundamental frequency
         T: time in seconds of wave
         fs: sampling rate
@@ -50,12 +50,12 @@ def functional_wave(a_function, phi_function, K=9, f_0=440, T=2, fs=44100):
     phi_function = np.vectorize(phi_function)
     a = a_function(np.arange(1,K+1))
     phi = phi_function(np.arange(1,K+1))
-    return fourrier_synth(a, phi, f_0=f_0, T=T, fs=fs)
+    return fourier_synth(a, phi, f_0=f_0, T=T, fs=fs)
 
 
 def sin_wave(f_0=440, T=2, fs=44100):
     ''' Generates a sin signal '''
-    return fourrier_synth([1],[-np.pi/2], f_0=f_0, T=T, fs=fs)
+    return fourier_synth([1],[-np.pi/2], f_0=f_0, T=T, fs=fs)
 
 
 def square_wave(K=9, f_0=440, T=2, fs=44100):
@@ -186,7 +186,7 @@ if __name__ == '__main__':
     # Generate a wave with specified properties
     a = np.array([ .05, .15, .22, .22, .17, .10, .05, .02, .008])
     phi = np.array([0, np.pi/2, 0, -np.pi/2, 0, np.pi/2, 0, -np.pi/2, 0])
-    spec_samples = fourrier_synth(a, phi)
+    spec_samples = fourier_synth(a, phi)
     scipy.io.wavfile.write('examples/somewave.wav', fs, spec_samples)
 
     # Make a triangle wave that decays 1
