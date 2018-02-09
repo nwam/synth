@@ -169,6 +169,22 @@ def amp_vibrato(samples, a=0.1, tau=10, start=0, end=None, fs=44100):
 
     return samples
 
+def white_noise(T, a=1, fs = 44100):
+    '''
+    Generates white noise
+
+    input
+        T: Time in seconds
+        a: Maximum amplitude of white noise
+
+    output
+        White noise of time T
+    '''
+
+    N = T*fs
+    return np.random.rand(N)*a
+
+
 if __name__ == '__main__':
     # Generate a sin wave
     scipy.io.wavfile.write('examples/sin.wav', fs, sin_wave())
@@ -202,3 +218,7 @@ if __name__ == '__main__':
 
     trienvelope = amp_vibrato(trienvelope, a=0.2, start=0.2)
     scipy.io.wavfile.write('examples/trivelope_vibrate.wav', fs, trienvelope)
+
+    # Add white noise to a sound
+    noisy_trienvelope = trienvelope + white_noise(T=2, a=0.1)
+    scipy.io.wavfile.write('examples/trivelope_vibrate_noise.wav', fs, noisy_trienvelope)
